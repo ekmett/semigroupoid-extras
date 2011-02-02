@@ -1,8 +1,9 @@
 {-# LANGUAGE GADTs, EmptyDataDecls #-}
 module Data.Semigroupoid.Coproduct 
-  ( L, R, Coproduct(..) ) where
+  ( L, R, Coproduct(..), distributeDualCoproduct, factorDualCoproduct) where
 
 import Data.Semigroupoid
+import Data.Semigroupoid.Dual
 
 data L a
 data R a
@@ -15,3 +16,11 @@ instance (Semigroupoid j, Semigroupoid k) => Semigroupoid (Coproduct j k) where
   L f `o` L g = L (f `o` g)
   R f `o` R g = R (f `o` g)
   _ `o` _ = error "GADT fail"
+
+distributeDualCoproduct :: Dual (Coproduct j k) a b -> Coproduct (Dual j) (Dual k) a b
+distributeDualCoproduct (Dual (L l)) = L (Dual l)
+distributeDualCoproduct (Dual (R r)) = R (Dual r)
+
+factorDualCoproduct :: Coproduct (Dual j) (Dual k) a b -> Dual (Coproduct j k) a b
+factorDualCoproduct (L (Dual l)) = Dual (L l)
+factorDualCoproduct (R (Dual r)) = Dual (R r)

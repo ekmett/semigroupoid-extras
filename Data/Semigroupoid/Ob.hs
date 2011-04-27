@@ -20,8 +20,11 @@ instance (Ob l a, Semigroupoid r)  => Ob (Coproduct l r) (L a) where
 instance (Semigroupoid l, Ob r a) => Ob (Coproduct l r) (R a) where
   semiid = R semiid
 
-instance (Bind m, Monad m, Ob (->) a) => Ob (Kleisli m) a where
+instance (Bind m, Monad m) => Ob (Kleisli m) a where
   semiid = Kleisli return
 
-instance (Comonad w, Ob (->) a) => Ob (Cokleisli w) a where
+instance Comonad w => Ob (Cokleisli w) a where
   semiid = Cokleisli extract
+
+instance Ob (->) a where
+  semiid = id

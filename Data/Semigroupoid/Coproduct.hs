@@ -4,6 +4,7 @@ module Data.Semigroupoid.Coproduct
 
 import Data.Semigroupoid
 import Data.Semigroupoid.Dual
+import Data.Groupoid
 
 data L a
 data R a
@@ -16,6 +17,10 @@ instance (Semigroupoid j, Semigroupoid k) => Semigroupoid (Coproduct j k) where
   L f `o` L g = L (f `o` g)
   R f `o` R g = R (f `o` g)
   _ `o` _ = error "GADT fail"
+
+instance (Groupoid j, Groupoid k) => Groupoid (Coproduct j k) where
+  inv (L f) = L (inv f)
+  inv (R f) = R (inv f)
 
 distributeDualCoproduct :: Dual (Coproduct j k) a b -> Coproduct (Dual j) (Dual k) a b
 distributeDualCoproduct (Dual (L l)) = L (Dual l)

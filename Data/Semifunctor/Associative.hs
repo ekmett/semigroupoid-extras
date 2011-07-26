@@ -6,6 +6,7 @@ import Control.Arrow
 import Control.Comonad
 import Data.Functor.Bind
 import Data.Semifunctor
+-- import Data.Groupoid.Isomorphism
 
 class Semifunctor p (Product k k) k => Associative k p where
   associate :: k (p(p(a,b),c)) (p(a,p(b,c)))
@@ -65,3 +66,9 @@ instance Comonad m => Disassociative (Cokleisli m) (Bi (,)) where
   disassociate = cokleisliDisassociate
 
 --  instance Associative k p => Disassociative (Dual k) p
+
+-- instance (Associative k p, Disassociative k p) => Associative (Iso k) p where
+--  associate = Iso associate disassociate
+
+--instance (Associative k p, Disassociative k p) => Disassociative (Iso k) p where
+--  disassociate = Iso disassociate associate

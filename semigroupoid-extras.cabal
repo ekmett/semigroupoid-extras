@@ -1,6 +1,6 @@
 name:          semigroupoid-extras
 category:      Control
-version:       0.2.5
+version:       0.2.6
 license:       BSD3
 cabal-version: >= 1.6
 license-file:  LICENSE
@@ -28,6 +28,7 @@ library
   exposed-modules:
     Data.Semifunctor
     Data.Semifunctor.Associative
+    Data.Semifunctor.Braided
     Data.Semigroupoid.Ob
     Data.Semigroupoid.Product
     Data.Semigroupoid.Coproduct

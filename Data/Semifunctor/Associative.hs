@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances, GADTs, ImplicitParams #-}
+{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances, GADTs #-}
 module Data.Semifunctor.Associative where
 
 import Prelude hiding ((.), id)
@@ -6,10 +6,6 @@ import Control.Arrow
 import Control.Comonad
 import Data.Functor.Bind
 import Data.Semifunctor
--- import Data.Semigroupoid.Dual
--- import Data.Semigroupoid.Product
-
--- instance Semifunctor p (Product x y) z => Semifunctor (DualSemibifunctor p) (Product (Dual x) (Dual y)) (Dual z) where
 
 class Semifunctor p (Product k k) k => Associative k p where
   associate :: k (p(p(a,b),c)) (p(a,p(b,c)))
@@ -36,6 +32,8 @@ cokleisliAssociate = Cokleisli (associate . extract)
 
 instance Comonad m => Associative (Cokleisli m) (Bi (,)) where
   associate = cokleisliAssociate
+
+-- instance Comonad m => Associative (Cokleisli m) (Bi Either) where associate = cokleisliAssociate
 
 -- instance Disassociative k p => Associative (Dual k) p
 -- instance (Monad m, Semifunctor p (Product (Kleisli m) (Kleisli m) (Kleisli m), Associative (->) p) => Associative (Kleisli m) p) where associate = kleisliAssociate

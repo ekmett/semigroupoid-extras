@@ -93,6 +93,8 @@ instance Bind m => Semifunctor (Bi Either) (Product (Kleisli m) (Kleisli m)) (Kl
 instance Extend w => Semifunctor (Bi (,)) (Product (Cokleisli w) (Cokleisli w)) (Cokleisli w) where
   semimap (Pair l r) = Cokleisli $ \p -> runCokleisli l (fstP <$> p) # runCokleisli r (sndP <$> p)
 
+-- instance Extend w => Semifunctor (Bi Either)) (Product (Cokleisli w) (Cokleisli w)) (Cokleisli w) where
+
 semibimap :: Semifunctor p (Product l r) cod => l a b -> r c d -> cod (p (a,c)) (p (b,d))
 semibimap f g = semimap (Pair f g)
 

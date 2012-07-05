@@ -1,5 +1,19 @@
-{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances, GADTs #-}
-module Data.Semifunctor.Braided 
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+-----------------------------------------------------------------------------
+-- |
+-- Module      :  Data.Semifunctor.Braided
+-- Copyright   :  (C) 2011-2012 Edward Kmett,
+-- License     :  BSD-style (see the file LICENSE)
+--
+-- Maintainer  :  Edward Kmett <ekmett@gmail.com>
+-- Stability   :  experimental
+-- Portability :  MPTCs, GADTs
+--
+----------------------------------------------------------------------------
+module Data.Semifunctor.Braided
   ( Braided(..)
   , kleisliBraid
   , cokleisliBraid
@@ -11,6 +25,7 @@ import Prelude hiding ((.), id)
 import Control.Arrow
 import Control.Comonad
 import Data.Functor.Bind
+import Data.Functor.Extend
 import Data.Semifunctor
 import Data.Semifunctor.Associative
 -- import Data.Semigroupoid.Dual
@@ -36,20 +51,21 @@ instance (Bind m, Monad m) => Braided (Kleisli m) (Bi Either) where
 instance (Bind m, Monad m) => Braided (Kleisli m) (Bi (,)) where
   braid = kleisliBraid
 
-cokleisliBraid :: (Comonad w, Semifunctor p (Product (Cokleisli w) (Cokleisli w)) (Cokleisli w), Braided (->) p) => Cokleisli w (p(a,b)) (p(b,a))
+cokleisliBraid :: (Extend w, Comonad w, Semifunctor p (Product (Cokleisli w) (Cokleisli w)) (Cokleisli w), Braided (->) p) =>
+                  Cokleisli w (p(a,b)) (p(b,a))
 cokleisliBraid = Cokleisli (braid . extract)
 
-instance Comonad w => Braided (Cokleisli w) (Bi (,)) where
+instance (Extend w, Comonad w) => Braided (Cokleisli w) (Bi (,)) where
   braid = cokleisliBraid
 
 -- instance Comonad w => Braided (Cokleisli w) (Bi Either) where braid = cokleisliBraid
 
 class Braided k p => Symmetric k p
-instance Symmetric (->) (Bi Either) 
+instance Symmetric (->) (Bi Either)
 instance Symmetric (->) (Bi (,))
 instance (Bind m, Monad m) => Symmetric (Kleisli m) (Bi Either)
 instance (Bind m, Monad m) => Symmetric (Kleisli m) (Bi (,))
-instance Comonad w => Symmetric (Cokleisli w) (Bi (,))
+instance (Extend w, Comonad w) => Symmetric (Cokleisli w) (Bi (,))
 -- instance Comonad w => Symmetric (Cokleisli w) (Bi Either)
 
 swap :: Symmetric k p => k (p(a,b)) (p(b,a))

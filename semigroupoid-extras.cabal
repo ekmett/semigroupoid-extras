@@ -1,6 +1,6 @@
 name:          semigroupoid-extras
 category:      Control
-version:       3.0
+version:       3.0.0.1
 license:       BSD3
 cabal-version: >= 1.6
 license-file:  LICENSE
@@ -25,7 +25,7 @@ library
 
   build-depends:
     base          == 4.*,
-    distributive  >= 0.2.2 && < 0.3,
+    distributive  >= 0.2.2 && < 0.4,
     semigroupoids == 3.0.*,
     groupoids     == 3.0.*,
     comonad       == 3.0.*

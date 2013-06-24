@@ -2,6 +2,18 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE CPP #-}
+#ifndef MIN_VERSION_comonad
+#define MIN_VERSION_comonad(x,y,z) 1
+#endif
+
+#if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ >= 702
+#if MIN_VERSION_comonad(3,0,3)
+{-# LANGUAGE Safe #-}
+#else
+{-# LANGUAGE Trustworthy #-}
+#endif
+#endif
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Data.Semifunctor.Braided

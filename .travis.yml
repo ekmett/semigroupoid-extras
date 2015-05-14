@@ -39,17 +39,17 @@ before_install:
     fi
   - git clone https://github.com/ekmett/bifunctors.git
   - cd bifunctors
-  - cabal install
+  - $CABAL install
   - cd ..
   - git clone https://github.com/ekmett/semigroupoids.git
   - cd semigroupoids
-  - cabal install
+  - $CABAL install
   - cd ..
   - git clone https://github.com/ekmett/profunctors.git
   - cd profunctors
-  - cabal install
+  - $CABAL install
   - cd ..
-  - cabal install --only-dependencies
+  - $CABAL install --only-dependencies
 
 install:
   - $CABAL install --dependencies-only --enable-tests

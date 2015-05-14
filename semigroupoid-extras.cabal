@@ -1,6 +1,6 @@
 name:          semigroupoid-extras
 category:      Control
-version:       3.2
+version:       5
 license:       BSD3
 cabal-version: >= 1.6
 license-file:  LICENSE
@@ -9,10 +9,10 @@ maintainer:    Edward A. Kmett <ekmett@gmail.com>
 stability:     provisional
 homepage:      http://github.com/ekmett/semigroupoid-extras
 bug-reports:   http://github.com/ekmett/semigroupoid-extras/issues
-copyright:     Copyright (C) 2011-2013 Edward A. Kmett
+copyright:     Copyright (C) 2011-2015 Edward A. Kmett
 build-type:    Simple
-synopsis:      This package has been absorbed into semigroupoids 3.2
-description:   This package has been absorbed into semigroupoids 3.2
+synopsis:      Semigroupoids that depend on PolyKinds
+description:   Semigroupoids that depend on PolyKinds
 
 extra-source-files:
   .ghci
@@ -24,5 +24,25 @@ source-repository head
   type: git
   location: git://github.com/ekmett/semigroupoid-extras.git
 
+flag profunctors
+  default: True
+  manual: True
+
 library
-  build-depends: base >= 4 && < 5, semigroupoids >= 3.2
+  hs-source-dirs: src
+  ghc-options: -Wall
+
+  exposed-modules:
+    Data.Semifunctor
+    Data.Semifunctor.Associative
+    Data.Semifunctor.Braided
+    Data.Semigroupoid.Product
+    Data.Semigroupoid.Coproduct
+
+  build-depends:
+    base          >= 4.6 && < 5,
+    semigroupoids >= 5 && < 6
+
+  if flag(profunctors)
+    build-depends: profunctors   >= 5 && < 6
+    exposed-modules: Data.Profunctor.Collage
